@@ -11,10 +11,11 @@ generator client {
 }
 
 model Movie {
-  id Int @id @default(autoincrement())
-  title String
-  year Inty
-  description String
+
+  id        Int     @id @default(autoincrement())
+  title     String
+  description   String
+  year Int
   slug String
 }
 

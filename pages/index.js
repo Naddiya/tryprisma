@@ -1,8 +1,11 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient;
 
 export default function Home({ data }) {
+
   return (
     <div className={styles.container}>
       <Head>
@@ -25,28 +28,10 @@ export default function Home({ data }) {
 }
 
 export async function getServerSideProps() {
-  const data = [
-    {
-      id: 1,
-      title: "title"
-    },
-    {
-      id: 2,
-      title: "title"
-    },
-    {
-      id: 3,
-      title: "title"
-    },
-    {
-      id: 4,
-      title: "title"
-    }
-  ];
-
+  const movies = await prisma.movie.findMany()
   return {
     props: {
-      data
+      data:movies
     }
   }
 }
