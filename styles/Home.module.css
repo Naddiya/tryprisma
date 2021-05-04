@@ -119,3 +119,9 @@
     flex-direction: column;
   }
 }
+
+.movielist{
+  list-style: none;
+  padding:0;
+  margin: 40px 0;
+}
