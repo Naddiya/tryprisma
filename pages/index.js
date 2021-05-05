@@ -17,7 +17,12 @@ export default function Home({ data }) {
       <main className={styles.main}>
         <ul className={styles.movielist}>
           {data.map(item => (
-            <li key="item.id">{item.title}</li>
+            <li key="item.id">
+              <h3>{item.title}</h3>
+              <p>{item.year}</p>
+              <p>{item.description}</p>
+            </li>
+
           ))}
         </ul>
 
@@ -31,7 +36,7 @@ export async function getServerSideProps() {
   const movies = await prisma.movie.findMany()
   return {
     props: {
-      data:movies
+      data: movies
     }
   }
 }
