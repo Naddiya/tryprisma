@@ -1,10 +1,23 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { PrismaClient } from '@prisma/client'
+import { useState } from 'react'
 
 const prisma = new PrismaClient;
 
 export default function Home({ data }) {
+  const [formData, setFormData] = useState({})
+  // const [movies, setMovies] = useState(data)
+
+  async function saveMovie(e) {
+    e.preventDefault();
+    const response = await fetch('/api/movies', {
+      method: 'POST',
+      body: JSON.stringify(formData)
+    })
+
+    return await response.json(formData)
+  };
 
   return (
     <div className={styles.container}>
@@ -15,9 +28,9 @@ export default function Home({ data }) {
       </Head>
 
       <main className={styles.main}>
-        <ul className={styles.movielist}>
+        <ul className={styles.card}>
           {data.map(item => (
-            <li key="item.id">
+            <li key={item.id}>
               <h3>{item.title}</h3>
               <p>{item.year}</p>
               <p>{item.description}</p>
@@ -25,6 +38,14 @@ export default function Home({ data }) {
 
           ))}
         </ul>
+
+        <form onSubmit={saveMovie} className={styles.card}>
+          <input type="text" placeholder="Title" name="title" onChange={e => setFormData({ ...formData, title: e.target.value })} />
+          <input type="text" placeholder="Year" name="year" onChange={e => setFormData({ ...formData, year: +e.target.value })} />
+          <textarea name="description" id="" cols="30" rows="10" placeholder="Description" onChange={e => setFormData({ ...formData, description: e.target.value })} />
+          <input type="text" placeholder="Slug" name="slug" onChange={e => setFormData({ ...formData, slug: e.target.value })} />
+          <button type="submit">Add movie</button>
+        </form>
 
       </main>
 
